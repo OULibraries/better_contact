@@ -8,7 +8,7 @@
 /**
  * Implements hook_mail().
  */
-function better_contact_mail($key, &$message, $params) {
+function better_contact_mail_alter($key, &$message, $params) {
   $language = $message['language'];
   $variables = array(
     '!site-name' => variable_get('site_name', 'Drupal'),
