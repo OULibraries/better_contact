@@ -1,0 +1,4 @@
+name = "Better Contact"
+description = "Allows configuration of the user contact message body."
+core = "7.x"
+configure = admin/config/better-contact/settings
