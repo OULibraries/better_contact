@@ -10,15 +10,16 @@
  * Implements hook_mail_alter()
  */
 function better_contact_mail_alter(&$message){
+  
+  unset($message['headers']['Sender']);
+  unset($message['headers']['Errors-To']);
+  unset($message['headers']['Return-Path']);
 
   if ($message['id'] == 'contact_user_mail') {
     /* strip out preamble added by contact form */
     array_splice($message['body'],1,2);
   }
   
-  if($message['from'] == $default_from){
-    $message['from'] = '"'. variable_get('site_name', 'Drupal') .'" <'. $default_from .'>';
-    $message['headers']['From'] = $message['headers']['Sender'] = $message['headers']['Return-Path'] = $message['headers']['Errors-To'] = $message['headers']['Reply-To'] = $message['from'];
-  }
+  
 
 }
