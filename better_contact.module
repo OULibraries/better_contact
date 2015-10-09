@@ -15,5 +15,10 @@ function better_contact_mail_alter(&$message){
     /* strip out preamble added by contact form */
     array_splice($message['body'],1,2);
   }
+  
+  if($message['from'] == $default_from){
+    $message['from'] = '"'. variable_get('site_name', 'Drupal') .'" <'. $default_from .'>';
+    $message['headers']['From'] = $message['headers']['Sender'] = $message['headers']['Return-Path'] = $message['headers']['Errors-To'] = $message['headers']['Reply-To'] = $message['from'];
+  }
 
 }
