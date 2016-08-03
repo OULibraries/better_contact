@@ -10,19 +10,18 @@
  * Implements hook_mail_alter()
  */
 function better_contact_mail_alter(&$message){
-
-  unset($message['headers']['Sender']);
-  unset($message['headers']['Errors-To']);
-  unset($message['headers']['Return-Path']);
- 
  
   if ($message['id'] == 'contact_user_mail') {
+    /* remove "[University of Oklahoma Libraries]" from Subject */
     $message['subject'] = substr($message['subject'],34);
-    /* strip out preamble added by contact form */
-    array_splice($message['body'],0,4);
-	array_push ($message['body'], "This message was sent from your pesonal contact form on libraries.ou.edu");
-  }
-  
-  
 
+    /* remove default preamble added by contact form */
+    array_splice($message['body'],0,4);
+
+    /* add custom preamble to message body */
+    $preamble  = "This message was sent from your personal contact form at libraries.ou.edu on behalf of ";
+    $preamble .=  $message['params']['name'] ;
+    $preamble .=  " (".$message['params']['mail'].").";
+    array_unshift ($message['body'],$preamble ); 	
+  }
 }
